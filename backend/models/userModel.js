@@ -28,3 +28,21 @@ export const createEmailUser = async ({ email, name, passwordHash }) => {
   );
   return res.rows[0];
 };
+
+// Save/update refresh token for a user
+export const saveRefreshToken = async ({userId, refreshToken}) => {
+  const res = await pool.query(
+    'UPDATE users SET refresh_token=$1 WHERE id=$2',
+    [refreshToken, userId]
+  );
+  return res.rows[0];
+}
+
+// Get user by refresh token
+export const findByRefreshToken = async (refreshToken) => {
+  const res = await pool.query(
+    'SELECT id, email FROM users WHERE refresh_token=$1',
+    [refreshToken]
+  );
+  return res.rows[0];
+}

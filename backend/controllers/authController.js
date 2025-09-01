@@ -12,8 +12,8 @@ import {
 } from "../utils/jwt.js";
 
 
-// Store refresh tokens (in DB or memory, here memory for demo)
-let refreshTokens = [];
+// /api/auth/...
+
 
 // Handles both login and signup via Google OAuth
 export const oauthGoogle = async (req, res) => {

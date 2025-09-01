@@ -41,7 +41,7 @@ export const saveRefreshToken = async ({userId, refreshToken}) => {
 // Get user by refresh token
 export const findByRefreshToken = async (refreshToken) => {
   const res = await pool.query(
-    'SELECT id, email FROM users WHERE refresh_token=$1',
+    'SELECT * FROM users WHERE refresh_token=$1',
     [refreshToken]
   );
   return res.rows[0];

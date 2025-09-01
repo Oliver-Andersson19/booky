@@ -52,7 +52,6 @@ export const oauthGoogle = async (req, res) => {
       name: user.name,
       email: user.email,
       oauth_provider: user.oauth_provider,
-      oauth_id: user.oauth_id,
       created_at: user.created_at
     };
 
@@ -89,8 +88,20 @@ export const refresh = async (req, res) => {
 
     // Generate a new access token using user's DB info
     const accessToken = generateAccessToken({ id: user.id, email: user.email });
+    
+    const safeUser = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      oauth_provider: user.oauth_provider,
+      created_at: user.created_at
+    };
+    
+    res.json({
+      accessToken,
+      user: safeUser  
+    });
 
-    res.json({ accessToken });
   } catch (err) {
     console.error("Refresh token error:", err);
     res.status(403).json({ message: "Invalid or expired refresh token" });

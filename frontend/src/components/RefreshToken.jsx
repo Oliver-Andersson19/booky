@@ -3,13 +3,13 @@ import { useAuth } from "../context/authContext.jsx";
 import { refreshAccessToken } from "../services/authService.js";
 
 function RefreshToken() {
-    const { setUser, setAccessToken } = useAuth();
+    const { user, setUser, setAccessToken, accessToken } = useAuth();
 
     const handleRefresh = async () => {
         try {
             const data = await refreshAccessToken();
-            console.log(data);
             setAccessToken(data.accessToken);
+            setUser(data.user);
         } catch (err) {
             console.error(err);
         }

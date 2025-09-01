@@ -9,7 +9,6 @@ export default function GoogleLoginButton() {
     const googleToken = credentialResponse.credential;
     try {
       const data = await loginWithGoogle(googleToken);
-      console.log(data);
       setUser(data.user);
       setAccessToken(data.accessToken);
     } catch (err) {

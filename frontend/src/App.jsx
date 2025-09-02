@@ -1,6 +1,6 @@
-import GoogleLoginButton from './components/GoogleLoginButton.jsx';
-import RefreshToken from './components/RefreshToken.jsx';
+import { Link, Outlet } from "react-router-dom";
 import { useAuth } from './context/authContext.jsx';
+import { pages } from "./router/routes.jsx";
 
 function App() {
 
@@ -9,9 +9,19 @@ function App() {
   console.log(user)
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '100px' }}>
-      <GoogleLoginButton />
-      <RefreshToken></RefreshToken>
+
+    <div>
+      <nav style={{ display: "flex", gap: "20px", justifyContent: "center", marginTop: "20px" }}>
+        {pages.map((page) => (
+          <Link key={page.path} to={page.path}>{page.label}</Link>
+        ))}
+ 
+      </nav>
+      
+      <main>
+        <Outlet />
+      </main>
+    
     </div>
   );
 }

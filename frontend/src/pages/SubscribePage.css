@@ -1,0 +1,14 @@
+.plans-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    height: 500px;
+}
+
+.plan-card {
+    border: 2px solid lightgray;
+    padding: 20px;
+    border-radius: 10px;
+}

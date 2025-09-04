@@ -1,5 +1,5 @@
 // frontend/src/context/authContext.js
-import { refreshAccessToken } from "../services/authService.js";
+import { refreshAccessToken, fetchWithToken } from "../services/authService.js";
 import { createContext, useState, useContext, useEffect } from "react";
 
 const AuthContext = createContext();
@@ -24,9 +24,14 @@ export const AuthProvider = ({ children }) => {
     initAuth();
   }, []);
 
+  const authFetch = async (url, options = {}) => {
+    if (!accessToken) throw new Error("No access token available");
+    const res = await fetchWithToken(url, accessToken, options, setAccessToken);
+    return res;
+  };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, accessToken, setAccessToken }}>
+    <AuthContext.Provider value={{ user, setUser, accessToken, setAccessToken, authFetch }}>
       {children}
     </AuthContext.Provider>
   );

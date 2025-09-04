@@ -5,7 +5,7 @@ import { fetchWithToken } from '../services/authService';
 
 function SubscribePage() {
 
-  const { user, accessToken } = useAuth();
+  const { user, accessToken, authFetch } = useAuth();
 
   console.log(accessToken)
 
@@ -20,9 +20,8 @@ function SubscribePage() {
 
   const purchasePlan = async (priceId) => {
     try {
-      const res = await fetchWithToken(
+      const res = await authFetch(
         "http://localhost:5000/api/payments/create-checkout-session",
-        accessToken,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -32,10 +31,9 @@ function SubscribePage() {
 
       const data = await res.json();
 
-      console.log(data)
 
       // Redirect user to Stripe checkout
-      window.location.href = data.url;
+      // window.location.href = data.url;
       console.log(data.url)
 
 
@@ -50,7 +48,7 @@ function SubscribePage() {
       {plans.map((plan, i) => (<div className='plan-card' key={i}>
         <h1>{plan.name}</h1>
         <h2>{plan.price}</h2>
-        <button onClick={() => purchasePlan(plan.priceId)}>Purchase</button>
+        <button onClick={() => purchasePlan(plan.priceId)} disabled={!accessToken || !user}>Purchase</button>
       </div>))}
     </div>
   )

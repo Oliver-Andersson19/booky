@@ -26,7 +26,7 @@ export const refreshAccessToken = async () => {
 
 
 
-export const fetchWithToken = async (url, accessToken, options = {}) => {
+export const fetchWithToken = async (url, accessToken, options = {}, setAccessToken) => {
   options.headers = {
     ...options.headers,
     Authorization: `Bearer ${accessToken}`,
@@ -34,9 +34,10 @@ export const fetchWithToken = async (url, accessToken, options = {}) => {
 
   let res = await fetch(url, options);
 
-  if (res.status === 401) {
+  if (res.status === 401 || res.status === 403) {
     const data = await refreshAccessToken();
     accessToken = data.accessToken;
+    setAccessToken?.(accessToken);
 
     options.headers.Authorization = `Bearer ${accessToken}`;
     res = await fetch(url, options);
